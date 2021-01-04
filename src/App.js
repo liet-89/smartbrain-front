@@ -90,7 +90,7 @@ class App extends React.Component {
     this.setState({route: route})
   }
 
-  onButtonSubmit = () => {
+  onPictureSubmit = () => {
     const { input } = this.state
     this.setState({ imgURL: input })
     console.log('click')
@@ -117,7 +117,7 @@ class App extends React.Component {
               <Rank rank={entries} name={name}/>
               <ImageLinkForm
                 onInputChange={this.onInputChange}
-                onButtonSubmit={this.onButtonSubmit}
+                onPictureSubmit={this.onPictureSubmit}
               />
               <FaceRecognition imageUrl={imgURL} box={box} />
             </div>
