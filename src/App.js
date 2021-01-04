@@ -53,13 +53,12 @@ class App extends React.Component {
       entries: data.entries,
       joined: data.joined,
     }})
-    console.log(this.state.user)
   }
 
   componentDidMount () {
     fetch('http://localhost:3000/')
     .then(res =>  res.json())
-    .then(console.log)
+    .then('in componentDidMount',console.log)
   }
 
   calculateFaceLocation = (data) => {
@@ -80,7 +79,6 @@ class App extends React.Component {
   }
 
   onInputChange = (event) => {
-    console.log(event.target.value)
     this.setState({ input: event.target.value })
   }
 
@@ -91,19 +89,27 @@ class App extends React.Component {
   }
 
   onPictureSubmit = () => {
-    const { input } = this.state
+    const { input, user:{id} } = this.state
     this.setState({ imgURL: input })
-    console.log('click')
     app.models
       .predict(Clarifai.FACE_DETECT_MODEL, input)
-      .then((response) => this.displayFaceBox(this.calculateFaceLocation(response)))
-      .catch((err) => console.log(err))
+      .then((response) => {
+      if(response) {
+        fetch('http://localhost:3000/image', {
+          method: 'put',
+          headers: {'Content-Type' : 'application/json'},
+          body: JSON.stringify({id:id})})
+        .then(response => response.json())
+        .then(count => this.setState(Object.assign(this.state.user,{entries : count})))
+          
+        this.displayFaceBox(this.calculateFaceLocation(response))
+      }})
+    .catch((err) => console.log(err))
   }
 
   render() {
     const { imgURL, box, route, isSignedIn } = this.state
     const { name, entries } = this.state.user
-    console.log(entries)
     
     return (
       
@@ -114,7 +120,7 @@ class App extends React.Component {
         { route === 'home'
           ? <div>
               <Logo />
-              <Rank rank={entries} name={name}/>
+              <Rank entries={entries} name={name}/>
               <ImageLinkForm
                 onInputChange={this.onInputChange}
                 onPictureSubmit={this.onPictureSubmit}
