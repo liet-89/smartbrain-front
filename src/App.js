@@ -23,13 +23,6 @@ const particlesOptions = {
         value_area: 800,
       },
     },
-    shape: {
-      type: 'images',
-      image: [
-        { src: 'path/to/first/image.svg', height: 20, width: 20 },
-        { src: 'path/to/second/image.jpg', height: 20, width: 20 },
-      ],
-    },
   },
 }
 
@@ -42,7 +35,31 @@ class App extends React.Component {
       box: {},
       route: 'signIn',
       isSignedIn : false,
+      user: {
+        id:'',
+        name:'',
+        email:'',
+        entries:'',
+        joined:''
+      }
     }
+  }
+
+  loadUser = (data) => {
+    this.setState({user:{
+      id:data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      joined: data.joined,
+    }})
+    console.log(this.state.user)
+  }
+
+  componentDidMount () {
+    fetch('http://localhost:3000/')
+    .then(res =>  res.json())
+    .then(console.log)
   }
 
   calculateFaceLocation = (data) => {
@@ -103,8 +120,8 @@ class App extends React.Component {
               <FaceRecognition imageUrl={imgURL} box={box} />
             </div>
           : (route === 'signIn'
-            ? <SignIn onRouteChange={this.onRouteChange}  />
-            : <Register onRouteChange={this.onRouteChange} />
+            ? <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser}   />
+            : <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
           )
         }
       </div>
