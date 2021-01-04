@@ -102,6 +102,8 @@ class App extends React.Component {
 
   render() {
     const { imgURL, box, route, isSignedIn } = this.state
+    const { name, entries } = this.state.user
+    console.log(entries)
     
     return (
       
@@ -112,7 +114,7 @@ class App extends React.Component {
         { route === 'home'
           ? <div>
               <Logo />
-              <Rank />
+              <Rank rank={entries} name={name}/>
               <ImageLinkForm
                 onInputChange={this.onInputChange}
                 onButtonSubmit={this.onButtonSubmit}
