@@ -22,7 +22,8 @@ const particlesOptions = {
   },
 }
 
-const server = 'http://localhost:3000/'
+//Replace with http://localhost:3000/ for development 
+const server = 'https://frozen-mountain-79816.herokuapp.com/'
 
 const initialState = {
   input: '', // eslint-disable-line
@@ -146,8 +147,8 @@ class App extends React.Component {
               <FaceRecognition imageUrl={imgURL} box={box} />
             </div>
           : (route === 'signIn'
-            ? <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser}   />
-            : <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
+            ? <SignIn server={server} onRouteChange={this.onRouteChange} loadUser={this.loadUser}   />
+            : <Register server={server} onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
           )
         }
       </div>
