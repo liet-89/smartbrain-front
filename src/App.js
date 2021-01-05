@@ -10,10 +10,6 @@ import SignIn from './components/SignIn/SignIn'
 import Rank from './components/Rank/Rank'
 import Register from './components/Register/Register'
 
-const app = new Clarifai.App({
-  apiKey: 'bf7ba06eb4164d44831840ed80e726fb',
-})
-
 const particlesOptions = {
   particles: {
     number: {
@@ -24,6 +20,23 @@ const particlesOptions = {
       },
     },
   },
+}
+
+const server = 'http://localhost:3000/'
+
+const initialState = {
+  input: '', // eslint-disable-line
+      imgURL: '',
+      box: {},
+      route: 'signIn',
+      isSignedIn : false,
+      user: {
+        id:'',
+        name:'',
+        email:'',
+        entries:'',
+        joined:''
+      }
 }
 
 class App extends React.Component {
@@ -56,7 +69,7 @@ class App extends React.Component {
   }
 
   componentDidMount () {
-    fetch('http://localhost:3000/')
+    fetch(`${server}`)
     .then(res =>  res.json())
     .then('in componentDidMount',console.log)
   }
@@ -76,6 +89,7 @@ class App extends React.Component {
 
   displayFaceBox = (box) => {
     this.setState({box: box});
+    console.log('indisplayFaceBox',box)
   }
 
   onInputChange = (event) => {
@@ -85,23 +99,27 @@ class App extends React.Component {
   onRouteChange = (route) => {
     if (route === 'signOut') { this.setState({ isSignedIn: false })}
     else if (route === 'home') { this.setState({ isSignedIn: true }) }
-    this.setState({route: route})
+    this.setState({route})
   }
 
   onPictureSubmit = () => {
+
     const { input, user:{id} } = this.state
-    this.setState({ imgURL: input })
-    app.models
-      .predict(Clarifai.FACE_DETECT_MODEL, input)
+    this.setState({ imgURL: input, box:{} })
+      fetch(`${server}imageUrl`, {
+        method: 'post',
+        headers: {'Content-Type' : 'application/json'},
+        body: JSON.stringify({input})})
+      .then(response => response.json())
       .then((response) => {
       if(response) {
-        fetch('http://localhost:3000/image', {
+        fetch(`${server}image`, {
           method: 'put',
           headers: {'Content-Type' : 'application/json'},
           body: JSON.stringify({id:id})})
         .then(response => response.json())
         .then(count => this.setState(Object.assign(this.state.user,{entries : count})))
-          
+        .catch((err) => console.log(err))
         this.displayFaceBox(this.calculateFaceLocation(response))
       }})
     .catch((err) => console.log(err))
@@ -120,7 +138,7 @@ class App extends React.Component {
         { route === 'home'
           ? <div>
               <Logo />
-              <Rank entries={entries} name={name}/>
+              <Rank entries={this.state.user.entries} name={this.state.user.name}/>
               <ImageLinkForm
                 onInputChange={this.onInputChange}
                 onPictureSubmit={this.onPictureSubmit}

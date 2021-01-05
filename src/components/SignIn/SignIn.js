@@ -30,11 +30,11 @@ class SignIn extends React.Component  {
         password: signInPassword,
       })
     }).then(res => res.json())
-    .then(data => {
-      if(data.connected) {
+    .then(user => {
+      if(user.id) {
         this.props.onRouteChange('home') 
-        this.props.loadUser(data.user)
-      }else { alert(data.description) }
+        this.props.loadUser(user)
+      }else { alert("Wrong Login") }
     })
   }
 
