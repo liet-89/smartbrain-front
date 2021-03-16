@@ -2,6 +2,13 @@
 
 Self-Taught Full Stack application developped thanks to ZTM training course. 
 
+## Features 
+
+* Login and Register Window
+* Styled with Particles.JS
+* [Clarifai API](https://www.clarifai.com/models) dialog box 
+
+
 ## Available Scripts
 
 In the project directory, you can run:
