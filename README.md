@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Smartbrain
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Self-Taught Full Stack application developped thanks to ZTM training course. 
 
 ## Available Scripts
 
