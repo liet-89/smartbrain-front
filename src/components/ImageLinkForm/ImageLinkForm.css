@@ -15,3 +15,16 @@
     #8a3;
   background-size: 20px 20px;
 }
+
+.imageLinkForm {
+  background-color: rgba(192, 192, 192, 0.26);
+  width: fit-content;
+  margin: 10px auto;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid white;
+}
+
+.imageLinkForm > p {
+  color: white;
+}

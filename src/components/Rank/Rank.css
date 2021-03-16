@@ -1,0 +1,8 @@
+.rankDiv{
+    background-color: rgba(255, 255, 255, 0.2);
+    width: fit-content;
+    margin: 0 auto;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+}

@@ -2,9 +2,10 @@ import React from 'react'
 import './ImageLinkForm.css'
 /* eslint-disable */
 const ImageLinkForm = ({ onInputChange, onPictureSubmit }) => (
-  <div>
+  <div className="imageLinkForm">
     <p className="f3">
-      This module will allow auto detections of faces in pictures
+      This module will allow auto detections of faces in pictures. <br/>
+      Just past the link from the image you want to study : 
     </p>
     <div className="flex justify-center">
       <div className="pa4 br3 shadow-5 w-70 motif">
